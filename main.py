@@ -8,6 +8,7 @@ import gui
 def start():
     gui.welcome_message()
     gui.main_gui()
+    gui.goodbye_screen()
 
 
 start()
