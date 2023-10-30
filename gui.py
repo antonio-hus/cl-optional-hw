@@ -82,6 +82,7 @@ def conversion_set_screen():
             print("Bad Input - The number you have entered is not a correct representation in selected base")
             print()
 
+    print()
     print("Enter the base you want to convert the number", number, "(which is written in base", base, ") to:")
     dest_base = int(input(">"))
     backend.conversion(number, base, dest_base)
