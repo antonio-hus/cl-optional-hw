@@ -61,6 +61,7 @@ def separate_operands_and_operators(expression):
 def addition(x: int, y: int, base: int) -> int:
     carry = 0
     result = 0
+    p = 1
 
     while x != 0 or y != 0:
 
@@ -70,24 +71,46 @@ def addition(x: int, y: int, base: int) -> int:
         temp_sum += y % 10
 
         carry = temp_sum // base
-        result = result * 10 + (temp_sum % base)
+        result = result + (temp_sum % base) * p
+
+        x = x // 10
+        y = y // 10
+        p = p * 10
+
+    result = result + carry * p
+    return result
+
+
+def subtraction(x: int, y: int, base: int) -> int:
+    borrow = 0
+    result = 0
+    p = 1
+
+    while x != 0 or y != 0:
+
+        temp_sub = borrow
+        temp_sub += x % 10
+        temp_sub -= y % 10
+
+        if temp_sub < 0:
+            borrow = -1
+            temp_sub += base
+        else:
+            borrow = 0
 
         x = x // 10
         y = y // 10
 
-    result = result * 10 + carry
-    return int(str(result)[::-1])
+        result = result + temp_sub * p
+        p = p * 10
 
-
-
-
-def subtraction(x: int, y: int, base: int) -> int:
-    pass
+    return result
 
 
 def multiplication(x: int, y: int, base: int) -> int:
     carry = 0
     result = 0
+    p = 1
 
     while x != 0:
         temp_prod = x % 10
@@ -95,12 +118,13 @@ def multiplication(x: int, y: int, base: int) -> int:
         temp_prod += carry
 
         carry = temp_prod // base
-        result = result * 10 + (temp_prod % base)
+        result = result + (temp_prod % base) * p
 
         x = x // 10
+        p = p * 10
 
-    result = result * 10 + carry
-    return int(str(result)[::-1])
+    result = result + carry * p
+    return result
 
 
 def division(x: int, y: int, base: int) -> int:
@@ -149,7 +173,7 @@ def arithmetic_operations(base: int):
         if op == '+':
             result = addition(x, y, base)
         elif op == '-':
-            pass
+            result = subtraction(x, y, base)
         elif op == '*':
             result = multiplication(x, y, base)
         elif op == '/':
