@@ -61,16 +61,49 @@ def separate_operands_and_operators(expression):
 def addition(x: int, y: int, base: int) -> int:
     carry = 0
     result = 0
-    
+
+    while x != 0 or y != 0:
+
+        temp_sum = 0
+        temp_sum += carry
+        temp_sum += x % 10
+        temp_sum += y % 10
+
+        carry = temp_sum // base
+        result = result * 10 + (temp_sum % base)
+
+        x = x // 10
+        y = y // 10
+
+    result = result * 10 + carry
+    return int(str(result)[::-1])
+
+
+
+
 def subtraction(x: int, y: int, base: int) -> int:
     pass
 
 
 def multiplication(x: int, y: int, base: int) -> int:
-    pass
+    carry = 0
+    result = 0
+
+    while x != 0:
+        temp_prod = x % 10
+        temp_prod *= y
+        temp_prod += carry
+
+        carry = temp_prod // base
+        result = result * 10 + (temp_prod % base)
+
+        x = x // 10
+
+    result = result * 10 + carry
+    return int(str(result)[::-1])
 
 
-def division(x: int,y: int, base: int) -> int:
+def division(x: int, y: int, base: int) -> int:
     pass
 
 
@@ -109,16 +142,16 @@ def arithmetic_operations(base: int):
     # Compute Expression
     while operators != [] and len(operands) >= 2:
 
-        x = operands.pop()
-        y = operands.pop()
+        x = int(operands.pop())
+        y = int(operands.pop())
         op = operators.pop()
 
         if op == '+':
-            pass
+            result = addition(x, y, base)
         elif op == '-':
             pass
         elif op == '*':
-            pass
+            result = multiplication(x, y, base)
         elif op == '/':
             pass
 
