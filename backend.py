@@ -17,11 +17,48 @@ def verify_number(number: int, base: int) -> bool:
     return True
 
 
+def base10_substitution_method(number: int, source_base: int) -> int:
+    p = 0
+    s = 0
+    while number != 0:
+        s += number % 10 * (source_base ** p)
+        number = number // 10
+        p = p + 1
+    return s
+
+
+def base10_successive_divisions_method(number: int, destination_base: int) -> int:
+    result = 0
+    p = 1
+
+    while number != 0:
+        result = result + p * (number % destination_base)
+        number = number // destination_base
+        p = p * 10
+
+    return result
+
+
+def intermediate_base10_conversion(number: int, source_base: int, destination_base: int) -> int:
+    number = base10_substitution_method(number, source_base)
+    number = base10_successive_divisions_method(number, destination_base)
+    return number
+
+
 def substitution_method(number: int, source_base: int, destination_base: int) -> int:
-    pass
+
+    # Step 1 - Convert all digits of the number in destination_base
+    # Since source_base < destination_base => already ok
+
+    p = 0
+    s = 0
+    while number != 0:
+        s += number % 10 * p
+        p = p + 1
+    return number
 
 
-def successive_divs_muls_method(number: int, source_base: int, destination_base: int) -> int:
+def successive_divisions_method(number: int, source_base: int, destination_base: int) -> int:
     pass
 
 
@@ -128,7 +165,20 @@ def multiplication(x: int, y: int, base: int) -> int:
 
 
 def division(x: int, y: int, base: int) -> int:
-    pass
+    quotient = 0
+    remainder = 0
+
+    og = int(str(x)[::-1])  # Reverse of x
+    current_remainder = og % 10
+    while og != 0:
+        current_remainder = base10_substitution_method(current_remainder, base)  # to base 10
+        quotient = quotient * 10 + current_remainder // y
+
+        og = og // 10
+        current_remainder = current_remainder % y * 10 + og % 10
+    remainder = current_remainder // 10
+    print(quotient, remainder)
+    return quotient
 
 
 def arithmetic_operations(base: int):
@@ -177,7 +227,7 @@ def arithmetic_operations(base: int):
         elif op == '*':
             result = multiplication(x, y, base)
         elif op == '/':
-            pass
+            result = division(x, y, base)
 
         operands.append(result)
 
