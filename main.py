@@ -7,7 +7,6 @@ import backend
 
 
 def start():
-    print(backend.base10_successive_divisions_method(10, 2))
     gui.welcome_message()
     gui.main_gui()
     gui.goodbye_screen()

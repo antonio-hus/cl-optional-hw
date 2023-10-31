@@ -49,20 +49,28 @@ def substitution_method(number: int, source_base: int, destination_base: int) ->
 
     # Step 1 - Convert all digits of the number in destination_base
     # Since source_base < destination_base => already ok
-
-    p = 0
     s = 0
+    p = 0
     while number != 0:
-        s += number % 10 * p
+
+        temp = number % 10
+        for i in range(0, p):
+            temp = multiplication(temp, source_base, destination_base)
+        s += temp
+
         p = p + 1
-    return number
+        number = number // 10
+
+    return s
 
 
 def successive_divisions_method(number: int, source_base: int, destination_base: int) -> int:
+    #TODO - Succesve Division Method - Aribitrary Base
     pass
 
 
 def rapid_method(number: int, source_base: int, destination_base: int) -> int:
+    #TODO - Rapid Conversions
     pass
 
 
@@ -70,6 +78,7 @@ def conversion(number: int, source_base: int, destination_base: int) -> int:
     gui.clear_console()
     result = 0
 
+    # TODO - Automatic method redirection for conversions
     # If source_base < destination_base, then apply substitution method
 
     # If source_base > destination_base, then apply successive divisions / multiplications method
@@ -177,6 +186,8 @@ def division(x: int, y: int, base: int) -> int:
         og = og // 10
         current_remainder = current_remainder % y * 10 + og % 10
     remainder = current_remainder // 10
+
+    # TODO - Divisions
     print(quotient, remainder)
     return quotient
 
